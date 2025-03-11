@@ -52,7 +52,7 @@ jobs:
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "GitHub Actions [Bot]"
-          git add srs/
+          git add srs
           if git diff-index --quiet HEAD --; then
             echo "No changes to commit"
           else
@@ -67,6 +67,7 @@ jobs:
         uses: ad-m/github-push-action@v0.6.0
         with:
           github_token: ${{ secrets.GIT_TOKEN }}
+          branch: main
       # 第九步：上传 SRS 目录作为构件
       - name: Upload SRS Directory
         uses: actions/upload-artifact@v4
