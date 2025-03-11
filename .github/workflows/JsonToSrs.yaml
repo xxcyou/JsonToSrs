@@ -55,7 +55,7 @@ jobs:
           git config --local user.name "${{ secrets.GIT_USERNAME }}"
           git add srs
           git commit -m "Automated commit: Add compiled SRS files"
-          git remote set-url origin "https://${{ secrets.GIT_USERNAME }}:${{ secrets.GIT_TOKEN }}@github.com/${{ github.repository }}.git"
+          git remote set-url origin 'https://${{ secrets.GIT_USERNAME }}:${{ secrets.GIT_TOKEN }}@github.com/${{ github.repository }}.git'
           git push origin main
       # 第九步：上传 SRS 目录作为构件
       - name: Upload SRS Directory
