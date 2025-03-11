@@ -1,0 +1,10 @@
+version: 1
+rules:
+  - domain_keyword:
+      - challenges.cloudflare.com
+      - short.weixin.qq.com
+      - long.weixin.qq.com
+      - szshort.weixin.qq.com
+      - szlong.weixin.qg.com
+      - szminorshort.weixin.qq.com
+      - szextshort.weixin.qq.com
