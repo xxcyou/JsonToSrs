@@ -4,7 +4,7 @@ rules:
       - 441
       - 446
       - 30443
-      - 80443
+      - 8443
   - domain_suffix:
       - .123pan.com
       - .cg.163.com
