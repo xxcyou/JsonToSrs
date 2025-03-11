@@ -49,11 +49,11 @@ jobs:
       # 第八步：提交 SRS 文件到项目
       - name: Commit and push SRS files
         run: |
-          git config --local user.email "${{ secrets.Ti_Mi }}"
-          git config --local user.name "xxcyou"
+          git config --local user.email "${{ secrets.GIT_EMAIL }}"
+          git config --local user.name "${{ secrets.GIT_USERNAME }}"
           git add srs
           git commit -m "Automated commit: Add compiled SRS files"
-          git push "https://${{ github.actor }}:${{ secrets.TOKEN }}@github.com/${{ github.repository }}.git"
+          git push "https://${{ secrets.GIT_USERNAME }}:${{ secrets.GIT_TOKEN }}@github.com/${{ github.repository }}.git"
       # 第九步：上传 SRS 目录作为构件
       - name: Upload SRS Directory
         uses: actions/upload-artifact@v4
