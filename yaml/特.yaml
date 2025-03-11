@@ -1,0 +1,14 @@
+version: 1
+rules:
+  - port:
+      - 441
+      - 446
+      - 30443
+  - domain_suffix:
+      - .123pan.com
+      - .cg.163.com
+      - .beacon.qq.com
+      - .netease.com
+  - domain_keyword:
+      - "*.10010.*"
+      - right.com

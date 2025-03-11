@@ -1,0 +1,59 @@
+name: Build and Compile JSON to SRS
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - '*'
+jobs:
+  build-and-compile:
+    # 指定运行环境为最新的 Ubuntu（Linux AMD64 系统）
+    runs-on: ubuntu-latest
+    steps:
+      # 第一步：克隆项目代码
+      - name: Check out code
+        uses: actions/checkout@v3
+      # 第二步：添加执行权限到 `sing-box`
+      - name: Grant execute permissions to sing-box
+        run: |
+          chmod 777 ./sing-box
+          echo "sing-box is now executable"
+      # 第三步：创建 json 目录
+      - name: Create json directory
+        run: mkdir -p json
+      # 第四步：遍历并转换 yaml 文件为 json 文件
+      - name: Convert YAML to JSON
+        run: |
+          for file in yaml/*.yaml; do
+            echo "Processing $file..."
+            filename=$(basename "$file" .yaml)
+            yq -o=json "$file" > "json/$filename.json"
+          done
+          echo "All YAML files have been converted to JSON."
+      # 第五步：创建输出目录 `srs`
+      - name: Create srs output directory
+        run: mkdir -p srs
+      # 第六步：编译所有 `json/*.json` 文件
+      - name: Compile JSON files to SRS
+        run: |
+          for file in json/*.json; do
+            echo "Processing $file..."
+            filename=$(basename "$file" .json)
+            ./sing-box rule-set compile --output "srs/$filename.srs" "$file"
+          done
+          echo "All JSON files have been compiled."
+      # 第七步：检查生成的 SRS 文件
+      - name: List compiled SRS files
+        run: ls -al srs
+      # 第八步：打包 SRS 目录为 ZIP 文件
+      - name: Package SRS files
+        run: |
+          zip -r srs.zip srs
+          echo "SRS files have been packaged into srs.zip"
+      # 第九步：上传 ZIP 文件作为构件
+      - name: Upload SRS Archive
+        uses: actions/upload-artifact@v3
+        with:
+          name: compiled-srs-files
+          path: srs.zip

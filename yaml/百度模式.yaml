@@ -1,0 +1,17 @@
+version: 1
+rules:
+  - port:
+      - 4480
+  - domain_regex:
+      - ^.*\.bdurl\..*$
+      - ^.*\.bytegecko\..*$
+      - ^.*\.ahdohpiechei\..*$
+      - ^.*\.douyin.*\..*$
+      - ^.*\.amemv\..*$
+      - ^.*\.fqno.*\..*$
+      - ^.*\.zijieapi\..*$
+      - ^.*\.ecombdapi\..*$
+      - ^.*\.bili.*\..*$
+  - package_name:
+      - com.dragon.read
+      - tv.danmaku.bili
