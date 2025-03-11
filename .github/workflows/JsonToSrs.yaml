@@ -49,7 +49,8 @@ jobs:
       # 第八步：打包 SRS 目录为 ZIP 文件
       - name: Package SRS files
         run: |
-          zip -r srs.zip srs
+          cd srs
+          zip -r ../srs.zip *.srs
           echo "SRS files have been packaged into srs.zip"
       # 第九步：上传 ZIP 文件作为构件
       - name: Upload SRS Archive
