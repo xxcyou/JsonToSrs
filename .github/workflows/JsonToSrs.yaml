@@ -47,16 +47,12 @@ jobs:
       - name: List compiled SRS files
         run: ls -al srs
       # 第八步：提交 SRS 文件到项目
-      - name: Debug GIT_USERNAME
-        run: echo "${{ secrets.GIT_USERNAME }}"
-      - name: Commit and push SRS files
-        run: |
-          git config --local user.email "${{ secrets.GIT_EMAIL }}"
-          git config --local user.name "${{ secrets.GIT_USERNAME }}"
-          git add srs
-          git commit -m "Automated commit: Add compiled SRS files"
-          git remote set-url origin 'https://${{ secrets.GIT_USERNAME }}:${{ secrets.GIT_TOKEN }}@github.com/${{ github.repository }}.git'
-          git push origin main
+      - name: Verify action syntax
+        # The action should not publish any real changes, but should succeed.
+        uses: './'
+        with:
+          github_token: '${{ secrets.GIT_TOKEN }}'
+          branch: '${{ github.ref }}'
       # 第九步：上传 SRS 目录作为构件
       - name: Upload SRS Directory
         uses: actions/upload-artifact@v4
