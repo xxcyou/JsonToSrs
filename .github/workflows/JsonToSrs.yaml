@@ -47,6 +47,8 @@ jobs:
       - name: List compiled SRS files
         run: ls -al srs
       # 第八步：提交 SRS 文件到项目
+      - name: Debug GIT_USERNAME
+        run: echo "GIT_USERNAME: ${{ secrets.GIT_USERNAME }}"
       - name: Commit and push SRS files
         run: |
           git config --local user.email "${{ secrets.GIT_EMAIL }}"
