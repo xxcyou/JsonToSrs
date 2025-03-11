@@ -13,7 +13,7 @@ jobs:
     steps:
       # 第一步：克隆项目代码
       - name: Check out code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
       # 第二步：添加执行权限到 `sing-box`
       - name: Grant execute permissions to sing-box
         run: |
@@ -47,15 +47,26 @@ jobs:
       - name: List compiled SRS files
         run: ls -al srs
       # 第八步：提交 SRS 文件到项目
-      - name: Check out code
-        uses: actions/checkout@v4
-        
-      - name: Verify action syntax
-        # The action should not publish any real changes, but should succeed.
-        uses: './'
+      - name: Commit
+        id: commit
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "GitHub Actions [Bot]"
+          git add srs
+          if git diff-index --quiet HEAD --; then
+            echo "No changes to commit"
+          else
+            git commit -m "update srs"
+          fi
+
+      - name: Check on failures
+        if: steps.commit.outputs.status == 'failure'
+        run: exit 1
+
+      - name: Push changes
+        uses: ad-m/github-push-action@v0.6.0
         with:
-          github_token: '${{ secrets.GIT_TOKEN }}'
-          branch: '${{ github.ref }}'
+          github_token: ${{ secrets.GIT_TOKEN }}
       # 第九步：上传 SRS 目录作为构件
       - name: Upload SRS Directory
         uses: actions/upload-artifact@v4
