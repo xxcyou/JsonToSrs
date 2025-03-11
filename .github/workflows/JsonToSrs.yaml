@@ -53,7 +53,7 @@ jobs:
           echo "SRS files have been packaged into srs.zip"
       # 第九步：上传 ZIP 文件作为构件
       - name: Upload SRS Archive
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: compiled-srs-files
           path: srs.zip
