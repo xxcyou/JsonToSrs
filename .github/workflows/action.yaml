@@ -17,8 +17,8 @@ jobs:
       # 第一步：克隆项目代码
       - uses: actions/checkout@v4
         with:
-        persist-credentials: false
-        fetch-depth: 0
+          persist-credentials: false
+          fetch-depth: 0
       # 第二步：添加执行权限到 `sing-box`
       - name: Grant execute permissions to sing-box
         run: |
