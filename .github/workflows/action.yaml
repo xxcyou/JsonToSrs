@@ -97,7 +97,7 @@ jobs:
           if git diff-index --quiet HEAD --; then
             echo "No changes to commit"
           else
-            git commit -m "update srs and README.md with size comparison"
+            git commit -m "update srs"
           fi
       - name: Check on failures
         if: steps.commit.outputs.status == 'failure'
