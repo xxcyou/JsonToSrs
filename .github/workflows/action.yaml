@@ -29,6 +29,12 @@ jobs:
             echo "Processing $file..."
             filename=$(basename "$file" .yaml)
             yq -o=json "$file" > "json/$filename.json"
+            # 读取 YAML 文件的第一行注释
+            comment=$(head -n 1 "$file" | grep '^#' | sed 's/^# //')
+            # 将注释和文件名添加到 README.md 中
+            if [ -n "$comment" ]; then
+              echo "- **$filename**: $comment" >> README.md
+            fi
           done
           echo "All YAML files have been converted to JSON."
       # 第五步：创建输出目录 `srs`
