@@ -1,4 +1,4 @@
-# 特殊代理端口包括10010，163，123网盘，网易，蓝奏云代理
+# 特殊代理端口包括10010，163，123网盘，网易，蓝奏云, 恩山论坛代理
 version: 1
 rules:
   - port:
@@ -13,4 +13,4 @@ rules:
       - .netease.com
   - domain_keyword:
       - "*.10010.*"
-      - right.com
+      - right.com.cn
