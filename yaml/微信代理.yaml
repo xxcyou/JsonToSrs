@@ -1,3 +1,4 @@
+# CloudFlare 验证 和 微信推送相关
 version: 1
 rules:
   - domain_keyword:
