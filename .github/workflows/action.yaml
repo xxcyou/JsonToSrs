@@ -25,14 +25,14 @@ jobs:
       # 第四步：遍历并转换 yaml 文件为 json 文件
       - name: Convert YAML to JSON
         run: |
+          # 保留初始的 # JsonToSrs 标题，并在其下方添加新内容
+          echo "# JsonToSrs" > README.md
           for file in yaml/*.yaml; do
             echo "Processing $file..."
             filename=$(basename "$file" .yaml)
             yq -o=json "$file" > "json/$filename.json"
             # 读取 YAML 文件的第一行注释
             comment=$(head -n 1 "$file" | grep '^#' | sed 's/^# //')
-            # 保留初始的 # JsonToSrs 标题，并在其下方添加新内容
-            echo "# JsonToSrs" > README.md
             # 将注释和文件名添加到 README.md 中
             if [ -n "$comment" ]; then
               echo "- **$filename**: $comment" >> README.md
