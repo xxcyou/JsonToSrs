@@ -10,15 +10,10 @@ jobs:
   build-and-compile:
     # 指定运行环境为最新的 Ubuntu（Linux AMD64 系统）
     runs-on: ubuntu-latest
-    permissions:           
-      contents: write
-      pull-requests: write 
     steps:
       # 第一步：克隆项目代码
-      - uses: actions/checkout@v4
-        with:
-          persist-credentials: false
-          fetch-depth: 0
+      - name: Check out code
+        uses: actions/checkout@v3
       # 第二步：添加执行权限到 `sing-box`
       - name: Grant execute permissions to sing-box
         run: |
@@ -52,17 +47,26 @@ jobs:
       - name: List compiled SRS files
         run: ls -al srs
       # 第八步：提交 SRS 文件到项目
-      - name: Commit files
+      - name: Commit
+        id: commit
         run: |
-          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          git commit -a -m "Add srs files"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "GitHub Actions [Bot]"
+          git add srs
+          if git diff-index --quiet HEAD --; then
+            echo "No changes to commit"
+          else
+            git commit -m "update srs"
+          fi
+      - name: Check on failures
+        if: steps.commit.outputs.status == 'failure'
+        run: exit 1
       - name: Push changes
-        uses: ad-m/github-push-action@master
+        uses: ad-m/github-push-action@v0.6.0
         with:
           github_token: ${{ secrets.GIT_TOKEN }}
-          branch: ${{ github.ref }}
-        # 第九步：上传 SRS 目录作为构件
+          branch: main
+      # 第九步：上传 SRS 目录作为构件
       - name: Upload SRS Directory
         uses: actions/upload-artifact@v4
         with:
