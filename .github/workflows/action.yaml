@@ -49,6 +49,8 @@ jobs:
       # 第八步：生成大小对比表并更新 README.md
       - name: Generate Size Comparison Table
         run: |
+          # 保留初始的 # JsonToSrs 标题，并在其下方添加新内容
+          echo "# JsonToSrs" > README.md
           echo "## SRS Files Size Comparison" >> README.md
           echo "| File Name | Original Size | Compiled Size | Size Reduction |" >> README.md
           echo "|-----------|---------------|---------------|----------------|" >> README.md
