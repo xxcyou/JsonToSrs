@@ -59,7 +59,7 @@ jobs:
             original_size=$(stat -c%s "$file")
             compiled_size=$(stat -c%s "srs/$filename.srs")
             size_reduction=$((original_size - compiled_size))
-            echo "| $filename | $(numfmt --to=iec $original_size) | $(numfmt --to=iec $compiled_size) | $(numfmt --to=iec $size_reduction) |" >> README.md
+            echo "| $filename | $(numfmt --to=iec $original_size)B | $(numfmt --to=iec $compiled_size)B | $(numfmt --to=iec $size_reduction)B |" >> README.md
           done
           echo "Size comparison table has been updated in README.md."
       # 第九步：提交 SRS 文件到项目
