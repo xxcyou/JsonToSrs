@@ -46,17 +46,31 @@ jobs:
       # 第七步：检查生成的 SRS 文件
       - name: List compiled SRS files
         run: ls -al srs
-      # 第八步：提交 SRS 文件到项目
+      # 第八步：生成大小对比表并更新 README.md
+      - name: Generate Size Comparison Table
+        run: |
+          echo "## SRS Files Size Comparison" >> README.md
+          echo "| File Name | Original Size (KB) | Compiled Size (KB) | Size Reduction (KB) |" >> README.md
+          echo "|-----------|--------------------|--------------------|---------------------|" >> README.md
+          for file in json/*.json; do
+            filename=$(basename "$file" .json)
+            original_size=$(stat -c%s "$file")
+            compiled_size=$(stat -c%s "srs/$filename.srs")
+            size_reduction=$((original_size - compiled_size))
+            echo "| $filename | $((original_size / 1024)) | $((compiled_size / 1024)) | $((size_reduction / 1024)) |" >> README.md
+          done
+          echo "Size comparison table has been updated in README.md."
+      # 第九步：提交 SRS 文件到项目
       - name: Commit
         id: commit
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "GitHub Actions [Bot]"
-          git add srs
+          git add srs README.md
           if git diff-index --quiet HEAD --; then
             echo "No changes to commit"
           else
-            git commit -m "update srs"
+            git commit -m "update srs and README.md with size comparison"
           fi
       - name: Check on failures
         if: steps.commit.outputs.status == 'failure'
@@ -66,7 +80,7 @@ jobs:
         with:
           github_token: ${{ secrets.GIT_TOKEN }}
           branch: main
-      # 第九步：上传 SRS 目录作为构件
+      # 第十步：上传 SRS 目录作为构件
       - name: Upload SRS Directory
         uses: actions/upload-artifact@v4
         with:
