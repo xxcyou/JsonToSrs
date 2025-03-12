@@ -30,6 +30,7 @@ jobs:
         run: |
           # 保留初始的 # JsonToSrs 标题，并在其下方添加新内容
           echo "# JsonToSrs" > README.md
+          echo "## Introduction to YAML Configuration " >> README.md
           for file in yaml/*.yaml; do
             echo "Processing $file..."
             filename=$(basename "$file" .yaml)
