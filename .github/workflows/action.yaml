@@ -59,7 +59,22 @@ jobs:
             original_size=$(stat -c%s "$file")
             compiled_size=$(stat -c%s "srs/$filename.srs")
             size_reduction=$((original_size - compiled_size))
-            echo "| $filename | $(numfmt --to=iec $original_size)B | $(numfmt --to=iec $compiled_size)B | $(numfmt --to=iec $size_reduction)B |" >> README.md
+            # 动态选择单位
+            format_size() {
+              local size=$1
+              if (( size < 1024 )); then
+                echo "$size B"
+              elif (( size < 1048576 )); then
+                echo "$(echo "scale=2; $size / 1024" | bc) KB"
+              elif (( size < 1073741824 )); then
+                echo "$(echo "scale=2; $size / 1048576" | bc) MB"
+              elif (( size < 1099511627776 )); then
+                echo "$(echo "scale=2; $size / 1073741824" | bc) GB"
+              else
+                echo "$(echo "scale=2; $size / 1099511627776" | bc) TB"
+              fi
+            }
+            echo "| $filename | $(format_size $original_size) | $(format_size $compiled_size) | $(format_size $size_reduction) |" >> README.md
           done
           echo "Size comparison table has been updated in README.md."
       # 第九步：提交 SRS 文件到项目
