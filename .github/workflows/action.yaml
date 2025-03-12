@@ -114,7 +114,7 @@ jobs:
         id: get_tag
         run: |
           git fetch --tags
-          latest_tag=$(git describe --tags --abbrev=0)
+          latest_tag=$(git describe --tags --abbrev=0 || true)
           if [ -z "$latest_tag" ]; then
             echo "No existing tags found, starting with v1.0.0"
             echo "::set-output name=new_tag::v1.0.0"
