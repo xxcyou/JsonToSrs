@@ -50,14 +50,14 @@ jobs:
       - name: Generate Size Comparison Table
         run: |
           echo "## SRS Files Size Comparison" >> README.md
-          echo "| File Name | Original Size (KB) | Compiled Size (KB) | Size Reduction (KB) |" >> README.md
-          echo "|-----------|--------------------|--------------------|---------------------|" >> README.md
+          echo "| File Name | Original Size | Compiled Size | Size Reduction |" >> README.md
+          echo "|-----------|---------------|---------------|----------------|" >> README.md
           for file in json/*.json; do
             filename=$(basename "$file" .json)
             original_size=$(stat -c%s "$file")
             compiled_size=$(stat -c%s "srs/$filename.srs")
             size_reduction=$((original_size - compiled_size))
-            echo "| $filename | $((original_size / 1024)) | $((compiled_size / 1024)) | $((size_reduction / 1024)) |" >> README.md
+            echo "| $filename | $(numfmt --to=iec $original_size) | $(numfmt --to=iec $compiled_size) | $(numfmt --to=iec $size_reduction) |" >> README.md
           done
           echo "Size comparison table has been updated in README.md."
       # 第九步：提交 SRS 文件到项目
