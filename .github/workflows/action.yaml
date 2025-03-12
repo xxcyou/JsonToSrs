@@ -14,11 +14,14 @@ jobs:
       # 第一步：克隆项目代码
       - name: Check out code
         uses: actions/checkout@v3
-      # 第二步：添加执行权限到 `sing-box`
-      - name: Grant execute permissions to sing-box
+      # 第二步：下载指定版本的 sing-box
+      - name: Download sing-box v1.11.5
         run: |
-          chmod 777 ./sing-box
-          echo "sing-box is now executable"
+          wget https://github.com/SagerNet/sing-box/releases/download/v1.11.5/sing-box-1.11.5-linux-amd64.tar.gz
+          tar -xzf sing-box-1.11.5-linux-amd64.tar.gz
+          mv sing-box-1.11.5-linux-amd64/sing-box ./sing-box
+          chmod +x ./sing-box
+          echo "sing-box v1.11.5 downloaded and configured"
       # 第三步：创建 json 目录
       - name: Create json directory
         run: mkdir -p json
@@ -87,8 +90,8 @@ jobs:
       - name: Commit
         id: commit
         run: |
-          git config --global user.email "30768284+xxcyou@users.noreply.github.com"
-          git config --global user.name "xxcyou"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "GitHub Actions [Bot]"
           git add srs README.md
           if git diff-index --quiet HEAD --; then
             echo "No changes to commit"
