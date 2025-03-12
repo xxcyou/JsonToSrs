@@ -1,4 +1,5 @@
 # JsonToSrs
+- **百度模式**: 百度免流 抖音 番茄小说 哔哩哔哩 等代理
 ## SRS Files Size Comparison
 | File Name | Original Size | Compiled Size | Size Reduction |
 |-----------|---------------|---------------|----------------|
