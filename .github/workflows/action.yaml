@@ -31,6 +31,8 @@ jobs:
             yq -o=json "$file" > "json/$filename.json"
             # 读取 YAML 文件的第一行注释
             comment=$(head -n 1 "$file" | grep '^#' | sed 's/^# //')
+            # 保留初始的 # JsonToSrs 标题，并在其下方添加新内容
+            echo "# JsonToSrs" > README.md
             # 将注释和文件名添加到 README.md 中
             if [ -n "$comment" ]; then
               echo "- **$filename**: $comment" >> README.md
@@ -55,8 +57,6 @@ jobs:
       # 第八步：生成大小对比表并更新 README.md
       - name: Generate Size Comparison Table
         run: |
-          # 保留初始的 # JsonToSrs 标题，并在其下方添加新内容
-          echo "# JsonToSrs" > README.md
           echo "## SRS Files Size Comparison" >> README.md
           echo "| File Name | Original Size | Compiled Size | Size Reduction |" >> README.md
           echo "|-----------|---------------|---------------|----------------|" >> README.md
